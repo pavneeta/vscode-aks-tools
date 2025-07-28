@@ -170,6 +170,55 @@
                     "type": "boolean",
                     "default": true,
                     "description": "Set to true to enable GH Copilot hook. (Preview feature)"
+                },
+                "aks.ai.autoStart": {
+                    "type": "boolean",
+                    "default": true,
+                    "title": "Auto-start AKS AI server",
+                    "description": "Automatically start the AKS-MCP server when the extension activates"
+                },
+                "aks.ai.serverPath": {
+                    "type": "string",
+                    "title": "AKS-MCP server binary path",
+                    "description": "Custom path to the AKS-MCP server binary. If not set, the extension will download and manage the binary automatically."
+                },
+                "aks.ai.accessLevel": {
+                    "type": "string",
+                    "enum": ["readonly", "readwrite", "admin"],
+                    "default": "readonly",
+                    "title": "AKS-MCP server access level",
+                    "description": "Access level for the AKS-MCP server operations"
+                },
+                "aks.ai.additionalTools": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "default": [],
+                    "title": "Additional tools",
+                    "description": "Additional tools to enable in the AKS-MCP server (e.g., helm, cilium)"
+                },
+                "aks.ai.serverPort": {
+                    "type": "number",
+                    "default": 8000,
+                    "minimum": 1024,
+                    "maximum": 65535,
+                    "title": "AKS-MCP server port",
+                    "description": "Port for the AKS-MCP server to listen on"
+                },
+                "aks.ai.timeout": {
+                    "type": "number",
+                    "default": 600,
+                    "minimum": 30,
+                    "maximum": 3600,
+                    "title": "AKS-MCP server timeout",
+                    "description": "Timeout in seconds for AKS-MCP server operations"
+                },
+                "aks.ai.showNotifications": {
+                    "type": "boolean",
+                    "default": true,
+                    "title": "Show AI notifications",
+                    "description": "Show notifications when AKS AI capabilities are enabled or disabled"
                 }
             }
         },
@@ -389,6 +438,26 @@
             {
                 "command": "aks.aksFleetProperties",
                 "title": "%Show Fleet Properties%"
+            },
+            {
+                "command": "aks.ai.toggle",
+                "title": "Toggle AKS AI",
+                "category": "AKS AI"
+            },
+            {
+                "command": "aks.ai.restart",
+                "title": "Restart AKS AI Server",
+                "category": "AKS AI"
+            },
+            {
+                "command": "aks.ai.askCopilot",
+                "title": "Ask GitHub Copilot about AKS",
+                "category": "AKS AI"
+            },
+            {
+                "command": "aks.ai.status",
+                "title": "Check AKS AI Status",
+                "category": "AKS AI"
             }
         ],
         "menus": {

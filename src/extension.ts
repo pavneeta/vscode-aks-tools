@@ -69,6 +69,10 @@ import aksFleetProperties from "./commands/aksFleetProperties/askFleetProperties
 import * as l10n from "@vscode/l10n";
 import * as path from "path";
 import * as fs from "fs";
+import { MCPExtensionIntegration } from "./mcp/mcpExtensionIntegration";
+
+// Global MCP integration instance
+let mcpIntegration: MCPExtensionIntegration | undefined;
 
 export async function activate(context: vscode.ExtensionContext) {
     const language = vscode.env.language;
@@ -78,6 +82,10 @@ export async function activate(context: vscode.ExtensionContext) {
     if (fs.existsSync(newpath)) {
         l10n.config({ fsPath: newpath });
     }
+
+    // Initialize MCP integration early in activation
+    mcpIntegration = new MCPExtensionIntegration(context);
+    await mcpIntegration.activate();
 
     const cloudExplorer = await k8s.extension.cloudExplorer.v1;
     context.subscriptions.push(new Reporter());
@@ -236,4 +244,13 @@ function telemetrise(command: string, callback: CommandCallback): CommandCallbac
 
         return callback(context, target);
     };
+}
+
+/**
+ * Called when the extension is deactivated
+ */
+export async function deactivate(): Promise<void> {
+    if (mcpIntegration) {
+        await mcpIntegration.deactivate();
+    }
 }
